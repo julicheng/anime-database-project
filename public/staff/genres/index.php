@@ -35,11 +35,11 @@ $genres = [
 
                 <?php foreach($genres as $genre) { ?>
                     <tr>
-                        <td><?php echo $genre['id']; ?></td>
-                        <td><?php echo $genre['position']; ?></td>
+                        <td><?php echo h($genre['id']); ?></td>
+                        <td><?php echo h($genre['position']); ?></td>
                         <td><?php echo $genre['visible']; ?></td>
-                        <td><?php echo $genre['menu_name']; ?></td>
-                        <td><a class="action" href="<?php echo url_for('/staff/genres/show.php?id=' . $genre['id']); ?>">View</a></td>
+                        <td><?php echo h($genre['menu_name']); ?></td>
+                        <td><a class="action" href="<?php echo url_for('/staff/genres/show.php?id=' . h(u( $genre['id']))); ?>">View</a></td>
                         <td><a class="action" href="">Edit</a></td>
                         <td><a class="action" href="">Delete</a></td>
                     </tr>
