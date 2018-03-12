@@ -16,4 +16,9 @@ function raw_u($string="") {
     return rawurlencode($string);
 }
 
+//whenever rendering dynamic data you want to escape it first!
+function h($string="") {
+    return htmlspecialchars($string);
+}
+
 ?>
