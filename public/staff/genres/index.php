@@ -19,7 +19,7 @@ $genres = [
             <h1>Genres</h1>
 
             <div class="actions">
-                <a class="action" href="">Create New Genre</a>
+                <a class="action" href="<?php echo url_for('/staff/genres/new.php'); ?>">Create New Genre</a>
             </div>
 
             <table class="list">
@@ -40,7 +40,7 @@ $genres = [
                         <td><?php echo $genre['visible']; ?></td>
                         <td><?php echo h($genre['menu_name']); ?></td>
                         <td><a class="action" href="<?php echo url_for('/staff/genres/show.php?id=' . h(u( $genre['id']))); ?>">View</a></td>
-                        <td><a class="action" href="">Edit</a></td>
+                        <td><a class="action" href="<?php echo url_for('/staff/genres/edit.php?id=' . h(u( $genre['id']))); ?>">Edit</a></td>
                         <td><a class="action" href="">Delete</a></td>
                     </tr>
                 <?php } ?>

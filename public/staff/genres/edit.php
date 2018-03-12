@@ -15,17 +15,17 @@ if ($test == '404') {
 
 ?>
 
-<?php $page_title = "Create Genre"; ?>
+<?php $page_title = "Edit Genre"; ?>
 <?php include(SHARED_PATH . '/staff_header.php'); ?>
 
 <div id="content">
 
     <a class="back-link" href="<?php echo url_for('/staff/genres/index.php'); ?>">&laquo; Back to List</a>
 
-    <div class="subject new">
-        <h1>Create Genre</h1>
+    <div class="subject edit">
+        <h1>Edit Genre</h1>
 
-        <form action="<?php echo url_for('staff/genres/create.php'); ?>" method="post">
+        <form action="" method="post">
 
             <dl>
                 <dt>Genre</dt>
