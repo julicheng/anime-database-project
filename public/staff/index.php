@@ -9,7 +9,8 @@
             <h2>Main Menu</h2>
             <ul>
                 <!-- forward slash means absolute url -->
-                <li><a href="<?php echo url_for('staff/genres/index.php') ?>">Genres</a></li>
+                <li><a href="<?php echo url_for('staff/genres/index.php'); ?>">Genres</a></li>
+                <li><a href="<?php echo url_for('staff/pages/index.php'); ?>">Pages</a></li>
             </ul>
         </div>
 
