@@ -1,29 +1,7 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="utf-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Anime Database Staff Area</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" type="text/css" media="screen" href="main.css" />
-    <script src="main.js"></script>
-    <link rel="stylesheet" href="../stylesheets/staff.css">
-</head>
-<body>
-    <header>
-        <h1>Anime Database Staff Area</h1>
-    </header>
+<?php require_once('../../private/initialize.php'); ?>
 
-    <navigation>
-        <ul>
-            <li><a href="index.php">Menu</a></li>
-        </ul>
-    </navigation>
+<?php include('../../private/shared/staff_header.php'); ?>
 
     <div id="content"></div>
 
-    <footer>
-        &copy; <?php echo date('Y'); ?> Anime Database
-    </footer>
-</body>
-</html>
+<?php include('../../private/shared/staff_footer.php'); ?>
