@@ -12,7 +12,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" type="text/css" media="screen" href="main.css" />
     <script src="main.js"></script>
-    <link rel="stylesheet" href="../stylesheets/staff.css">
+    <link rel="stylesheet" href="<?php echo url_for('/stylesheets/staff.css'); ?>">
 </head>
 <body>
     <header>
@@ -21,6 +21,6 @@
 
     <navigation>
         <ul>
-            <li><a href="index.php">Menu</a></li>
+            <li><a href="<?php echo url_for('/staff/index.php'); ?>">Menu</a></li>
         </ul>
     </navigation>
