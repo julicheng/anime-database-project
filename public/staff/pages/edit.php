@@ -2,8 +2,21 @@
 
 require_once('../../../private/initialize.php');
 
+// if no id then don't show this page
+if(!isset($_GET['id'])) {
+    redirect_to(url_for('/staff/pages/index.php'));
+}
+
+// if there is an id assign it to the variable $id
+$id = $_GET['id'];
+$menu_name = "";
+$position = "";
+$visible = "";
+
+// if it's a post request then process the form, if not then show the page
 if(is_post_request()) {
-// handle form values sent by new.php
+
+    // handle form values sent by new.php
 
     $menu_name = isset($_POST['menu_name']) ? $_POST['menu_name'] : "";
     $position = isset($_POST['position']) ? $_POST['position'] : "";
@@ -18,20 +31,20 @@ if(is_post_request()) {
 
 ?>
 
-<?php $page_title = "Create Genre"; ?>
+<?php $page_title = "Edit Page"; ?>
 <?php include(SHARED_PATH . '/staff_header.php'); ?>
 
 <div id="content">
 
-    <a class="back-link" href="<?php echo url_for('/staff/genres/index.php'); ?>">&laquo; Back to List</a>
+    <a class="back-link" href="<?php echo url_for('/staff/pages/index.php?id=' . h(u($id))); ?>">&laquo; Back to List</a>
 
-    <div class="subject new">
-        <h1>Create Genre</h1>
+    <div class="page edit">
+        <h1>Edit Page</h1>
 
-        <form action="<?php echo url_for('staff/genres/new.php'); ?>" method="post">
+        <form action="<?php echo url_for('/staff/pages/edit.php?id=' . $id); ?>" method="post">
 
             <dl>
-                <dt>Genre</dt>
+                <dt>Title</dt>
                 <dd><input type="text" name="menu_name" value="<?php echo h($menu_name); ?>"></dd>
             </dl>
 
@@ -53,7 +66,7 @@ if(is_post_request()) {
             </dl>
 
             <div id="operations">
-                <input type="submit" value="Create Genre">
+                <input type="submit" value="Edit Page">
             </div>
 
         </form>

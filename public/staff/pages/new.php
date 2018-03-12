@@ -2,36 +2,40 @@
 
 require_once('../../../private/initialize.php');
 
+$menu_name = "";
+$position = "";
+$visible = "";
+
 if(is_post_request()) {
 // handle form values sent by new.php
 
-    $menu_name = isset($_POST['menu_name']) ? $_POST['menu_name'] : "";
-    $position = isset($_POST['position']) ? $_POST['position'] : "";
-    $visible = isset($_POST['visible']) ? $_POST['visible'] : "";
+$menu_name = isset($_POST['menu_name']) ? $_POST['menu_name'] : "";
+$position = isset($_POST['position']) ? $_POST['position'] : "";
+$visible = isset($_POST['visible']) ? $_POST['visible'] : "";
 
-    echo "Form parameters <br>";
-    echo "Menu name: " . $menu_name . "<br>";
-    echo "Position: " . $position . "<br>";
-    echo "Visible: " . $visible . "<br>";
+echo "Form parameters <br>";
+echo "Menu name: " . $menu_name . "<br>";
+echo "Position: " . $position . "<br>";
+echo "Visible: " . $visible . "<br>";
 
 } 
 
 ?>
 
-<?php $page_title = "Create Genre"; ?>
+<?php $page_title = "Create Page"; ?>
 <?php include(SHARED_PATH . '/staff_header.php'); ?>
 
 <div id="content">
 
-    <a class="back-link" href="<?php echo url_for('/staff/genres/index.php'); ?>">&laquo; Back to List</a>
+    <a class="back-link" href="<?php echo url_for('/staff/pages/index.php'); ?>">&laquo; Back to List</a>
 
-    <div class="subject new">
-        <h1>Create Genre</h1>
+    <div class="page new">
+        <h1>Create Page</h1>
 
-        <form action="<?php echo url_for('staff/genres/new.php'); ?>" method="post">
+        <form action="<?php echo url_for('staff/pages/new.php'); ?>" method="post">
 
             <dl>
-                <dt>Genre</dt>
+                <dt>Title</dt>
                 <dd><input type="text" name="menu_name" value="<?php echo h($menu_name); ?>"></dd>
             </dl>
 
@@ -53,7 +57,7 @@ if(is_post_request()) {
             </dl>
 
             <div id="operations">
-                <input type="submit" value="Create Genre">
+                <input type="submit" value="Create Page">
             </div>
 
         </form>
