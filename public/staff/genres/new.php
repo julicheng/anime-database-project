@@ -2,6 +2,10 @@
 
 require_once('../../../private/initialize.php');
 
+$menu_name = "";
+$position = "";
+$visible = "";
+
 if(is_post_request()) {
 // handle form values sent by new.php
 
@@ -28,7 +32,7 @@ if(is_post_request()) {
     <div class="subject new">
         <h1>Create Genre</h1>
 
-        <form action="<?php echo url_for('staff/genres/new.php'); ?>" method="post">
+        <form action="<?php echo url_for('staff/genres/create.php'); ?>" method="post">
 
             <dl>
                 <dt>Genre</dt>
