@@ -4,13 +4,6 @@
 
 $genre_set = find_all_genres();
 
-$genres = [
-    ['id' => '1', 'position' => '1', 'visible' => '1', 'menu_name' => 'Comedy'],
-    ['id' => '2', 'position' => '2', 'visible' => '1', 'menu_name' => 'Slice of Life'],
-    ['id' => '3', 'position' => '3', 'visible' => '1', 'menu_name' => 'School'],
-    ['id' => '4', 'position' => '4', 'visible' => '1', 'menu_name' => 'Romance'],
-];
-
 ?>
 
 <?php $page_title = "Genres"; ?>
@@ -35,11 +28,11 @@ $genres = [
                     <th>&nbsp;</th>
                 </tr>
 
-                <?php foreach($genres as $genre) { ?>
+                <?php while($genre = mysqli_fetch_assoc($genre_set)) { ?>
                     <tr>
                         <td><?php echo h($genre['id']); ?></td>
                         <td><?php echo h($genre['position']); ?></td>
-                        <td><?php echo $genre['visible']; ?></td>
+                        <td><?php echo $genre['visible'] == 1 ? 'true' : 'false'; ?></td>
                         <td><?php echo h($genre['menu_name']); ?></td>
                         <td><a class="action" href="<?php echo url_for('/staff/genres/show.php?id=' . h(u( $genre['id']))); ?>">View</a></td>
                         <td><a class="action" href="<?php echo url_for('/staff/genres/edit.php?id=' . h(u( $genre['id']))); ?>">Edit</a></td>
