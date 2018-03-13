@@ -2,6 +2,8 @@
 
 <?php
 
+$genre_set = find_all_genres();
+
 $genres = [
     ['id' => '1', 'position' => '1', 'visible' => '1', 'menu_name' => 'Comedy'],
     ['id' => '2', 'position' => '2', 'visible' => '1', 'menu_name' => 'Slice of Life'],
@@ -45,6 +47,11 @@ $genres = [
                     </tr>
                 <?php } ?>
             </table>
+            
+            <?php 
+                mysqli_free_result($genre_set);
+            ?>
+
         </div>
     </div>
 
