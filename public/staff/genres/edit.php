@@ -25,6 +25,12 @@ if(is_post_request()) {
 
 }  else {
     $genre = find_genre_by_id($id); //now we have an array
+
+    $genre_set = find_all_genres(); //find all records then count the records v
+    $genre_count = mysqli_num_rows($genre_set);
+    mysqli_free_result($genre_set);
+
+    //theres also a count function in php
 }
 
 ?>
@@ -50,7 +56,15 @@ if(is_post_request()) {
                 <dt>Position</dt>
                 <dd>
                     <select name="position">
-                        <option value="1"<?php if($genre['position'] == "1") { echo " selected"; } ?>>1</option>
+                        <?php
+                            for($i=1; $i <= $genre_count; $i++) {
+                                echo "<option value=\"{$i}\"";
+                                if ($genre['position'] == $i) { 
+                                    echo " selected"; // add selected if the number matches selected
+                                }
+                                echo ">{$i}</option>";
+                            }
+                        ?>
                     </select>
                 </dd>
             </dl>
