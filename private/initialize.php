@@ -24,5 +24,8 @@ define("WWW_ROOT", '/anime-database-project/public');
 
 require_once('functions.php');
 
+//database connection when page loads
+require_once('database.php');
+$db = db_connect();
 
 ?>
