@@ -30,16 +30,17 @@ $page_set = find_all_pages();
             </tr>
 
             <?php while($page = mysqli_fetch_assoc($page_set)) { ?>
+                <?php $genre = find_genre_by_id($page['genre_id']); ?>
                 <tr>
                     <td><?php echo h($page['id']); ?></td>
-                    <td><?php echo h($page['genre_id']); ?></td>
+                    <td><?php echo h($genre['menu_name']); ?></td>
                     <td><?php echo h($page['position']); ?></td>
                     <!-- don't need to htmlspecialchars for visible as not outputting the value of it onto page -->
                     <td><?php echo $page['visible'] == 1 ? 'true' : 'false'; ?></td>
                     <td><?php echo h($page['menu_name']); ?></td>
                     <td><a class="action" href="<?php echo url_for('/staff/pages/show.php?id=' . h(u($page['id']))); ?>">View</a></td>
                     <td><a class="action" href="<?php echo url_for('/staff/pages/edit.php?id=' . h(u($page['id']))); ?>">Edit</a></td>
-                    <td><a class="action" href="">Delete</a></td>
+                    <td><a class="action" href="<?php echo url_for('/staff/pages/delete.php?id=' . h(u($page['id']))); ?>">Delete</a></td>
                 </tr>
             <?php } ?>
         </table>
