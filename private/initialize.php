@@ -28,4 +28,7 @@ require_once('functions.php');
 require_once('database.php');
 $db = db_connect();
 
+//load query functions everytime page loads
+require_once('query_functions.php');
+
 ?>
