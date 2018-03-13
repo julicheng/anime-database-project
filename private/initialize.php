@@ -31,4 +31,9 @@ $db = db_connect();
 //load query functions everytime page loads
 require_once('query_functions.php');
 
+require_once('validation_functions.php');
+
+//initialize errors array always
+$errors = [];
+
 ?>
