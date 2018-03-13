@@ -36,7 +36,7 @@ $genre_set = find_all_genres();
                         <td><?php echo h($genre['menu_name']); ?></td>
                         <td><a class="action" href="<?php echo url_for('/staff/genres/show.php?id=' . h(u( $genre['id']))); ?>">View</a></td>
                         <td><a class="action" href="<?php echo url_for('/staff/genres/edit.php?id=' . h(u( $genre['id']))); ?>">Edit</a></td>
-                        <td><a class="action" href="">Delete</a></td>
+                        <td><a class="action" href="<?php echo url_for('/staff/genres/delete.php?id=' . h(u( $genre['id']))); ?>">Delete</a></td>
                     </tr>
                 <?php } ?>
             </table>
