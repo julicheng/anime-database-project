@@ -17,7 +17,7 @@
         global $db; //db not in scope so need to global it
 
         $sql = "SELECT * FROM genres ";
-        $sql.= "WHERE id='" . $id . "'"; //finds id
+        $sql.= "WHERE id='" . db_escape($db, $id) . "'"; //finds id
         $result = mysqli_query($db, $sql);
         confirm_result_set($result);
 
@@ -67,9 +67,9 @@
         $sql = "INSERT INTO genres ";
         $sql.= "(menu_name, position, visible) ";
         $sql.= "VALUES (";
-        $sql.= "'" . $genre['menu_name'] . "', ";
-        $sql.= "'" . $genre['position'] . "', ";
-        $sql.= "'" . $genre['visible'] . "'";
+        $sql.= "'" . db_escape($db, $genre['menu_name']) . "', ";
+        $sql.= "'" . db_escape($db, $genre['position']) . "', ";
+        $sql.= "'" . db_escape($db, $genre['visible']) . "'";
         $sql.= ")";
         $result = mysqli_query($db, $sql);
 
@@ -92,10 +92,10 @@
         }
 
         $sql = "UPDATE genres SET ";
-        $sql.= "menu_name='" . $genre['menu_name'] . "', "; //uses variables above
-        $sql.= "position='" . $genre['position'] . "', ";
-        $sql.= "visible='" . $genre['visible'] . "' ";
-        $sql.= "WHERE id='" . $genre['id'] . "' "; //uses the $_GET['id']
+        $sql.= "menu_name='" . db_escape($db, $genre['menu_name']) . "', "; //uses variables above
+        $sql.= "position='" . db_escape($db, $genre['position']) . "', ";
+        $sql.= "visible='" . db_escape($db, $genre['visible']) . "' ";
+        $sql.= "WHERE id='" . db_escape($db, $genre['id']) . "' "; //uses the $_GET['id']
         $sql.= "LIMIT 1";
 
         $result = mysqli_query($db, $sql);
@@ -114,7 +114,7 @@
 
         //if its a post request then do sql
         $sql = "DELETE FROM genres ";
-        $sql.= "WHERE id='" . $id . "' ";
+        $sql.= "WHERE id='" . db_escape($db, $id) . "' ";
         $sql.= "LIMIT 1";
 
         $result = mysqli_query($db, $sql);
@@ -146,7 +146,7 @@
         global $db;
 
         $sql = "SELECT * FROM pages ";
-        $sql.= "WHERE id='" . $id . "'";
+        $sql.= "WHERE id='" . db_escape($db, $id) . "'";
         $result = mysqli_query($db, $sql);
         confirm_result_set($result);
 
@@ -210,11 +210,11 @@
         $sql = "INSERT INTO pages ";
         $sql.= "(genre_id, menu_name, position, visible, content) ";
         $sql.= "VALUES (";
-        $sql.= "'" . $page['genre_id'] . "',";
-        $sql.= "'" . $page['menu_name'] . "',";
-        $sql.= "'" . $page['position'] . "',";
-        $sql.= "'" . $page['visible'] . "',";
-        $sql.= "'" . $page['content'] . "'";
+        $sql.= "'" . db_escape($db, $page['genre_id']) . "',";
+        $sql.= "'" . db_escape($db, $page['menu_name']) . "',";
+        $sql.= "'" . db_escape($db, $page['position']) . "',";
+        $sql.= "'" . db_escape($db, $page['visible']) . "',";
+        $sql.= "'" . db_escape($db, $page['content']) . "'";
         $sql.= ")";
         $result = mysqli_query($db, $sql);
 
@@ -237,12 +237,12 @@
         }
 
         $sql = "UPDATE pages SET ";
-        $sql.= "genre_id='" . $page['genre_id'] . "', ";
-        $sql.= "menu_name='" . $page['menu_name'] . "', ";
-        $sql.= "position='" . $page['position'] . "', ";
-        $sql.= "visible='" . $page['visible'] . "', ";
-        $sql.= "content='" . $page['content'] . "' ";
-        $sql.= "WHERE id='" . $page['id'] . "' ";
+        $sql.= "genre_id='" . db_escape($db, $page['genre_id']) . "', ";
+        $sql.= "menu_name='" . db_escape($db, $page['menu_name']) . "', ";
+        $sql.= "position='" . db_escape($db, $page['position']) . "', ";
+        $sql.= "visible='" . db_escape($db, $page['visible']) . "', ";
+        $sql.= "content='" . db_escape($db, $page['content']) . "' ";
+        $sql.= "WHERE id='" . db_escape($db, $page['id']) . "' ";
         $sql.= "LIMIT 1";
 
         $result = mysqli_query($db, $sql);
@@ -261,7 +261,7 @@
         global $db;
 
         $sql = "DELETE FROM pages ";
-        $sql.= "WHERE id='" . $id . "' ";
+        $sql.= "WHERE id='" . db_escape($db, $id) . "' ";
         $sql.= "LIMIT 1";
         $result = mysqli_query($db, $sql);
         
