@@ -155,8 +155,57 @@
         return $page;
     }
 
+    function validate_page($page) {
+        $errors = [];
+
+        // menu_name
+        if(is_blank($page['menu_name'])) {
+        $errors[] = "Title cannot be blank.";
+        } elseif(!has_length($page['menu_name'], ['min' => 2, 'max' => 255])) {
+        $errors[] = "Title must be between 2 and 255 characters.";
+        }
+        $current_id = isset($page['id']) ? $page['id'] : "0";
+        if (!has_unique_page_menu_name($page['menu_name'], $current_id)) {
+            $errors[] = "Menu name must be unique.";
+        }
+
+        // genre_id
+        if(is_blank($page['genre_id'])) {
+            $errors[] = "Genre cannot be blank";
+        }
+
+        // position
+        // Make sure we are working with an integer
+        $postion_int = (int) $page['position'];
+        if($postion_int <= 0) {
+        $errors[] = "Position must be greater than zero.";
+        }
+        if($postion_int > 999) {
+        $errors[] = "Position must be less than 999.";
+        }
+
+        // visible
+        // Make sure we are working with a string
+        $visible_str = (string) $page['visible'];
+        if(!has_inclusion_of($visible_str, ["0","1"])) {
+        $errors[] = "Visible must be true or false.";
+        }
+
+        // content 
+        if(is_blank($page['content'])) {
+            $errors[] = "Content cannot be blank.";
+        }
+
+        return $errors;
+    }
+
     function insert_page($page) {
         global $db;
+
+        $errors = validate_page($page);
+        if(!empty($errors)) {
+            return $errors;
+        }
 
         $sql = "INSERT INTO pages ";
         $sql.= "(genre_id, menu_name, position, visible, content) ";
@@ -181,6 +230,11 @@
 
     function update_page($page) {
         global $db;
+
+        $errors = validate_page($page);
+        if(!empty($errors)) {
+            return $errors;
+        }
 
         $sql = "UPDATE pages SET ";
         $sql.= "genre_id='" . $page['genre_id'] . "', ";

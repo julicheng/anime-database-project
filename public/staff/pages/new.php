@@ -12,8 +12,13 @@ if(is_post_request()) {
     $page['content'] = isset($_POST['content']) ? $_POST['content'] : "";
 
     $result = insert_page($page);
-    $new_id = mysqli_insert_id($db);
-    redirect_to(url_for('staff/pages/show.php?id=' . $new_id));
+    if($result === true) {
+        $new_id = mysqli_insert_id($db);
+        redirect_to(url_for('staff/pages/show.php?id=' . $new_id));
+    } else {
+        $errors = $result;
+    }
+    
 
 } else {
 
@@ -23,11 +28,11 @@ if(is_post_request()) {
     $page['position'] = "";
     $page['visible'] = "";
     $page['content'] = "";
+}
 
     $page_set = find_all_pages();
     $page_count = mysqli_num_rows($page_set);
     mysqli_free_result($page_set);
-}
 
 ?>
 
@@ -40,6 +45,8 @@ if(is_post_request()) {
 
     <div class="page new">
         <h1>Create Page</h1>
+
+        <?php echo display_errors($errors); ?>
 
         <form action="<?php echo url_for('staff/pages/new.php'); ?>" method="post">
 
