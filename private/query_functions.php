@@ -26,8 +26,43 @@
         return $genre; //returns an assoc array
     }
 
+    function validate_genre($genre) {
+        $errors = [];
+
+        // menu_name
+        if(is_blank($genre['menu_name'])) {
+        $errors[] = "Name cannot be blank.";
+        } elseif(!has_length($genre['menu_name'], ['min' => 2, 'max' => 255])) {
+        $errors[] = "Name must be between 2 and 255 characters.";
+        }
+
+        // position
+        // Make sure we are working with an integer
+        $postion_int = (int) $genre['position'];
+        if($postion_int <= 0) {
+        $errors[] = "Position must be greater than zero.";
+        }
+        if($postion_int > 999) {
+        $errors[] = "Position must be less than 999.";
+        }
+
+        // visible
+        // Make sure we are working with a string
+        $visible_str = (string) $genre['visible'];
+        if(!has_inclusion_of($visible_str, ["0","1"])) {
+        $errors[] = "Visible must be true or false.";
+        }
+
+        return $errors;
+    }
+
     function insert_genre($genre) {
         global $db;
+
+        $errors = validate_genre($genre);
+        if(!empty($errors)) {
+            return $errors; //skips out of function early and returns $errors into $result
+        }
 
         $sql = "INSERT INTO genres ";
         $sql.= "(menu_name, position, visible) ";
@@ -50,6 +85,11 @@
 
     function update_genre($genre) {
         global $db;
+
+        $errors = validate_genre($genre);
+        if(!empty($errors)) {
+            return $errors; //skips out of function early and returns $errors into $result
+        }
 
         $sql = "UPDATE genres SET ";
         $sql.= "menu_name='" . $genre['menu_name'] . "', "; //uses variables above
