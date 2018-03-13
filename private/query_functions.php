@@ -24,15 +24,15 @@
         return $genre; //returns an assoc array
     }
 
-    function insert_genre($menu_name, $position, $visible) {
+    function insert_genre($genre) {
         global $db;
 
         $sql = "INSERT INTO genres ";
         $sql.= "(menu_name, position, visible) ";
         $sql.= "VALUES (";
-        $sql.= "'" . $menu_name . "', ";
-        $sql.= "'" . $position . "', ";
-        $sql.= "'" . $visible . "'";
+        $sql.= "'" . $genre['menu_name'] . "', ";
+        $sql.= "'" . $genre['position'] . "', ";
+        $sql.= "'" . $genre['visible'] . "'";
         $sql.= ")";
         $result = mysqli_query($db, $sql);
 
@@ -40,6 +40,7 @@
         if($result) {
            return true;
         } else {
+            //insert failed
             echo mysqli_error($db);
             db_disconnect($db);
         }
@@ -63,6 +64,27 @@
             //update failed
             echo mysqli_error($db);
             db_disconnect($db);
+        }
+    }
+
+    function delete_genre($id) {
+        global $db;
+
+        //if its a post request then do sql
+        $sql = "DELETE FROM genres ";
+        $sql.= "WHERE id='" . $id . "' ";
+        $sql.= "LIMIT 1";
+
+        $result = mysqli_query($db, $sql);
+        //for DELETE statements, $result is true/false
+        
+        if($result) {
+            return true;
+        } else {
+            // delete failed
+            echo mysqli_error($db);
+            db_disconnect($db);
+            exit;
         }
     }
 
