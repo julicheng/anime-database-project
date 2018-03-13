@@ -6,27 +6,12 @@ $menu_name = "";
 $position = "";
 $visible = "";
 
-
 $genre_set = find_all_genres(); //find all records then count the records v
 $genre_count = mysqli_num_rows($genre_set) + 1; //need to add one as adding another record
 mysqli_free_result($genre_set); 
 
 $genre = [];
 $genre['position'] = $genre_count;
-
-if(is_post_request()) {
-// handle form values sent by new.php
-
-    $menu_name = isset($_POST['menu_name']) ? $_POST['menu_name'] : "";
-    $position = isset($_POST['position']) ? $_POST['position'] : "";
-    $visible = isset($_POST['visible']) ? $_POST['visible'] : "";
-
-    echo "Form parameters <br>";
-    echo "Menu name: " . $menu_name . "<br>";
-    echo "Position: " . $position . "<br>";
-    echo "Visible: " . $visible . "<br>";
-
-} 
 
 ?>
 
