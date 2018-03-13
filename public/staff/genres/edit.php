@@ -9,25 +9,23 @@ if(!isset($_GET['id'])) {
 
 // if there is an id assign it to the variable $id
 $id = $_GET['id'];
-$menu_name = "";
-$position = "";
-$visible = "";
 
 // if it's a post request then process the form, if not then show the page
 if(is_post_request()) {
 
     // handle form values sent by new.php
+    $genre = []; //pass array into function later
+    $genre['id'] = $id;
+    $genre['menu_name'] = isset($_POST['menu_name']) ? $_POST['menu_name'] : "";
+    $genre['position'] = isset($_POST['position']) ? $_POST['position'] : "";
+    $genre['visible'] = isset($_POST['visible']) ? $_POST['visible'] : "";
 
-    $menu_name = isset($_POST['menu_name']) ? $_POST['menu_name'] : "";
-    $position = isset($_POST['position']) ? $_POST['position'] : "";
-    $visible = isset($_POST['visible']) ? $_POST['visible'] : "";
+    $result = update_genre($genre);
+    redirect_to(url_for('/staff/genres/show.php?id=' . $id));
 
-    echo "Form parameters <br>";
-    echo "Menu name: " . $menu_name . "<br>";
-    echo "Position: " . $position . "<br>";
-    echo "Visible: " . $visible . "<br>";
-
-} 
+}  else {
+    $genre = find_genre_by_id($id); //now we have an array
+}
 
 ?>
 
@@ -45,14 +43,14 @@ if(is_post_request()) {
 
             <dl>
                 <dt>Genre</dt>
-                <dd><input type="text" name="menu_name" value="<?php echo h($menu_name); ?>"></dd>
+                <dd><input type="text" name="menu_name" value="<?php echo h($genre['menu_name']); ?>"></dd>
             </dl>
 
             <dl>
                 <dt>Position</dt>
                 <dd>
                     <select name="position">
-                        <option value="1"<?php if($position == "1") { echo " selected"; } ?>>1</option>
+                        <option value="1"<?php if($genre['position'] == "1") { echo " selected"; } ?>>1</option>
                     </select>
                 </dd>
             </dl>
@@ -61,7 +59,7 @@ if(is_post_request()) {
                 <dt>Visible</dt>
                 <dd>
                     <input type="hidden" name="visible" value="0">
-                    <input type="checkbox" name="visible" value="1"<?php if($visible == "1") { echo " checked"; } ?>>
+                    <input type="checkbox" name="visible" value="1"<?php if($genre['visible'] == "1") { echo " checked"; } ?>>
                 </dd>
             </dl>
 
