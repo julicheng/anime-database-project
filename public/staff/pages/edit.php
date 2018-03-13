@@ -93,7 +93,6 @@ if(is_post_request()) {
                 <dt>Visible</dt>
                 <dd>
                     <input type="hidden" name="visible" value="0">
-                    <!-- <input type="checkbox" name="visible" value="<?php if($page['visible'] == "1") { echo " checked"; } ?>"> -->
                     <input type="checkbox" name="visible" value="1"<?php if($page['visible'] == "1") { echo " checked"; } ?>>
                 </dd>
             </dl>
