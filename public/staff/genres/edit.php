@@ -21,17 +21,22 @@ if(is_post_request()) {
     $genre['visible'] = isset($_POST['visible']) ? $_POST['visible'] : "";
 
     $result = update_genre($genre);
-    redirect_to(url_for('/staff/genres/show.php?id=' . $id));
+    if($result === true) {
+        redirect_to(url_for('/staff/genres/show.php?id=' . $id)); 
+    } else {
+        $errors = $result;
+        // var_dump($errors);
+    }
 
 }  else {
     $genre = find_genre_by_id($id); //now we have an array
+}
 
     $genre_set = find_all_genres(); //find all records then count the records v
     $genre_count = mysqli_num_rows($genre_set);
     mysqli_free_result($genre_set);
 
     //theres also a count function in php
-}
 
 ?>
 
@@ -44,6 +49,8 @@ if(is_post_request()) {
 
     <div class="subject edit">
         <h1>Edit Genre</h1>
+        
+        <?php echo display_errors($errors); ?>
 
         <form action="<?php echo url_for('/staff/genres/edit.php?id=' . $id); ?>" method="post">
 
