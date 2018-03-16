@@ -17,11 +17,16 @@
         return $result;
     }
 
-    function find_genre_by_id($id) {
+    function find_genre_by_id($id, $options=[]) {
         global $db; //db not in scope so need to global it
 
+        $visible = isset($options['visible']) ? $options['visible'] : false;
+
         $sql = "SELECT * FROM genres ";
-        $sql.= "WHERE id='" . db_escape($db, $id) . "'"; //finds id
+        $sql.= "WHERE id='" . db_escape($db, $id) . "' "; //finds id
+        if($visible) {
+            $sql.= "AND visible = true";
+        }
         $result = mysqli_query($db, $sql);
         confirm_result_set($result);
 
@@ -146,11 +151,16 @@
         return $result;
     }
 
-    function find_page_by_id($id) {
+    function find_page_by_id($id, $options=[]) {
         global $db;
 
+        $visible = isset($options['visible']) ? $options['visible'] : false;
+
         $sql = "SELECT * FROM pages ";
-        $sql.= "WHERE id='" . db_escape($db, $id) . "'";
+        $sql.= "WHERE id='" . db_escape($db, $id) . "' ";
+        if($visible) {
+            $sql.= "AND visible = true";
+        }
         $result = mysqli_query($db, $sql);
         confirm_result_set($result);
 
