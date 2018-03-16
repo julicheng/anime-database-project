@@ -9,6 +9,14 @@ if(isset($_GET['id'])) {
         redirect_to(url_for('/index.php'));
     }
     $genre_id = $page['genre_id'];
+} elseif(isset($_GET['genre_id'])) {
+    $genre_id = $_GET['genre_id'];
+    $page_set = find_pages_by_genre_id($genre_id);
+    $page = mysqli_fetch_assoc($page_set);
+    mysqli_free_result($page_set);
+    if(!$page) {
+        redirect_to(url_for('/index.php'));
+    }
 } else {
     // nothing selected; show the homepage
 }
