@@ -8,6 +8,7 @@ if(isset($_GET['id'])) {
     if(!$page) {
         redirect_to(url_for('/index.php'));
     }
+    $genre_id = $page['genre_id'];
 } else {
     // nothing selected; show the homepage
 }
