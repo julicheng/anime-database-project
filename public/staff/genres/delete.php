@@ -12,6 +12,7 @@ $genre = find_genre_by_id($id);
 
 if(is_post_request()) {
    $result = delete_genre($id);
+   $_SESSION['message'] = 'The genre was deleted successfully.';
    redirect_to(url_for('/staff/genres/index.php'));
 } else {
     $genre = find_genre_by_id($id);

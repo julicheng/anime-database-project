@@ -22,6 +22,7 @@ if(is_post_request()) {
 
     $result = update_genre($genre);
     if($result === true) {
+        $_SESSION['message'] = 'The genre was edited successfully.';
         redirect_to(url_for('/staff/genres/show.php?id=' . $id)); 
     } else {
         $errors = $result;

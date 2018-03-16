@@ -13,6 +13,7 @@ if(is_post_request()) {
     $result = insert_genre($genre); //use above variables in function
     if($result === true) {
         $new_id = mysqli_insert_id($db); //check the new id that has been created
+        $_SESSION['message'] = 'The genre was created successfully.';
         redirect_to(url_for('/staff/genres/show.php?id=' . $new_id)); //use the new id and load show page
     } else {
         $errors = $result;
