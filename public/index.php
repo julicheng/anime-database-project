@@ -40,7 +40,7 @@ if(isset($_GET['id'])) {
     <div id="page">
     <?php if (isset($page)) {
         // <!-- show the page from the database -->
-        echo h($page['content']);
+        echo strip_tags($page['content'], $allowed_tags = '<div><img><h1><h2><p><br><strong><em><ul><li>');
     } else {
         include(SHARED_PATH . '/static_homepage.php');
     }
