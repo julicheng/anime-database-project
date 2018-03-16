@@ -17,9 +17,13 @@ $page = find_page_by_id($id);
 
     <a class="back-link" href="<?php echo url_for('staff/pages/index.php'); ?>">&laquo; Back to List</a>
 
-    <div class="subject show">
+    <div class="page show">
 
         <h1>Title: <?php echo h($page['menu_name']); ?></h1>
+
+        <div class="actions">
+            <a class="action" href="<?php echo url_for('index.php?id=' . h(u($page['id']))) . '&preview=true'; ?>" target="_blank">Preview</a>
+        </div>
 
         <div class="attributes">
             <!-- returns an assoc array -->

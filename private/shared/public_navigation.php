@@ -2,12 +2,13 @@
 
 $page_id = isset($page_id) ? $page_id : "";
 $genre_id = isset($genre_id) ? $genre_id : "";
+$visible = isset($visible) ? $visible : true;
 
 ?>
 
 <navigation>
 
-    <?php $nav_genres = find_all_genres(['visible' => true]); ?>
+    <?php $nav_genres = find_all_genres(['visible' => $visible]); ?>
     <ul class="subjects">
         <?php while($nav_genre = mysqli_fetch_assoc($nav_genres)) { ?>
             <?php // if(!nav_genre['visible']) { continue; } ?>
@@ -17,7 +18,7 @@ $genre_id = isset($genre_id) ? $genre_id : "";
                 </a>
 
                 <?php if($nav_genre['id'] == $genre_id) { ?> 
-                    <?php $nav_pages = find_pages_by_genre_id($nav_genre['id'], ['visible' => true]); ?>
+                    <?php $nav_pages = find_pages_by_genre_id($nav_genre['id'], ['visible' => $visible]); ?>
                     <ul class="pages">
                         <?php // if(!nav_page['visible]) { continue; } ?>
                         <?php while($nav_page = mysqli_fetch_assoc($nav_pages)) { ?>
