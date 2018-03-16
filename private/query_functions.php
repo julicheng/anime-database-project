@@ -2,10 +2,14 @@
 
     //GENRE FUNCTIONS
 
-    function find_all_genres() {
+    function find_all_genres($options=[]) {
         global $db; //need to pass $db as not in scope
 
+        $visible = isset($options['visible']) ? $options['visible'] : false;
         $sql = "SELECT * FROM genres ";
+        if($visible) {
+            $sql.= "WHERE visible = true ";
+        }
         $sql.= "ORDER BY position ASC";
         // echo $sql; check the string
         $result = mysqli_query($db, $sql);
@@ -275,11 +279,16 @@
         }
     }
 
-        function find_pages_by_genre_id($genre_id) {
+        function find_pages_by_genre_id($genre_id , $options=[]) {
         global $db;
+
+        $visible = isset($options['visible']) ? $options['visible'] : false;
 
         $sql = "SELECT * FROM pages ";
         $sql.= "WHERE genre_id='" . db_escape($db, $genre_id) . "' ";
+        if($visible) {
+            $sql.= "AND visible = true ";
+        }
         $sql.= "ORDER BY position ASC";
         $result = mysqli_query($db, $sql);
         confirm_result_set($result);

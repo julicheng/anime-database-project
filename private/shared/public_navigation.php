@@ -7,7 +7,7 @@ $genre_id = isset($genre_id) ? $genre_id : "";
 
 <navigation>
 
-    <?php $nav_genres = find_all_genres(); ?>
+    <?php $nav_genres = find_all_genres(['visible' => true]); ?>
     <ul class="subjects">
         <?php while($nav_genre = mysqli_fetch_assoc($nav_genres)) { ?>
             <?php // if(!nav_genre['visible']) { continue; } ?>
@@ -17,7 +17,7 @@ $genre_id = isset($genre_id) ? $genre_id : "";
                 </a>
 
                 <?php if($nav_genre['id'] == $genre_id) { ?> 
-                    <?php $nav_pages = find_pages_by_genre_id($nav_genre['id']); ?>
+                    <?php $nav_pages = find_pages_by_genre_id($nav_genre['id'], ['visible' => true]); ?>
                     <ul class="pages">
                         <?php // if(!nav_page['visible]) { continue; } ?>
                         <?php while($nav_page = mysqli_fetch_assoc($nav_pages)) { ?>
