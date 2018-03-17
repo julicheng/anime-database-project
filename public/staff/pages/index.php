@@ -11,6 +11,7 @@ redirect_to(url_for('/staff/index.php'));
 ?>
 
 <!-- NO LONGER NEED CODE BELOW AS DON'T NEED TO DIRECTLY SEE ALL PAPGES -->
+
 <!-- <?php $page_title = "Pages"; ?>
 <?php include(SHARED_PATH . '/staff_header.php'); ?>
 
