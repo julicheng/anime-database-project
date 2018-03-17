@@ -73,6 +73,8 @@
             return $errors; //skips out of function early and returns $errors into $result
         }
 
+        shift_genre_positions(0, $genre['position']);
+
         $sql = "INSERT INTO genres ";
         $sql.= "(menu_name, position, visible) ";
         $sql.= "VALUES (";
@@ -100,6 +102,10 @@
             return $errors; //skips out of function early and returns $errors into $result
         }
 
+        $old_genre = find_genre_by_id($genre['id']);
+        $old_position = $old_genre['position'];
+        shift_genre_positions($old_position, $genre['position'], $genre['id']);
+
         $sql = "UPDATE genres SET ";
         $sql.= "menu_name='" . db_escape($db, $genre['menu_name']) . "', "; //uses variables above
         $sql.= "position='" . db_escape($db, $genre['position']) . "', ";
@@ -121,6 +127,10 @@
     function delete_genre($id) {
         global $db;
 
+        $old_genre = find_genre_by_id($id);
+        $old_position = $old_genre['position'];
+        shift_genre_positions($old_position, 0, $id);
+
         //if its a post request then do sql
         $sql = "DELETE FROM genres ";
         $sql.= "WHERE id='" . db_escape($db, $id) . "' ";
@@ -136,6 +146,47 @@
             echo mysqli_error($db);
             db_disconnect($db);
             exit;
+        }
+    }
+
+    function shift_genre_positions($start_pos, $end_pos, $current_id=0) {
+        global $db;
+
+        //if start and end is the same, nothing has changed so return
+        if($start_pos == $end_pos) { return; }
+
+        $sql = "UPDATE genres ";
+        if($start_pos == 0) {
+        // new item, +1 to items greater than $end_pos
+        $sql .= "SET position = position + 1 ";
+        $sql .= "WHERE position >= '" . db_escape($db, $end_pos) . "' ";
+        } elseif($end_pos == 0) {
+        // delete item, -1 from items greater than $start_pos
+        $sql .= "SET position = position - 1 ";
+        $sql .= "WHERE position > '" . db_escape($db, $start_pos) . "' ";
+        } elseif($start_pos < $end_pos) {
+        // move later, -1 from items between (including $end_pos)
+        $sql .= "SET position = position - 1 ";
+        $sql .= "WHERE position > '" . db_escape($db, $start_pos) . "' ";
+        $sql .= "AND position <= '" . db_escape($db, $end_pos) . "' ";
+        } elseif($start_pos > $end_pos) {
+        // move earlier, +1 to items between (including $end_pos)
+        $sql .= "SET position = position + 1 ";
+        $sql .= "WHERE position >= '" . db_escape($db, $end_pos) . "' ";
+        $sql .= "AND position < '" . db_escape($db, $start_pos) . "' ";
+        }
+        // Exclude the current_id in the SQL WHERE clause
+        $sql .= "AND id != '" . db_escape($db, $current_id) . "' ";
+
+        $result = mysqli_query($db, $sql);
+        // For UPDATE statements, $result is true/false
+        if($result) {
+        return true;
+        } else {
+        // UPDATE failed
+        echo mysqli_error($db);
+        db_disconnect($db);
+        exit;
         }
     }
 
@@ -221,6 +272,8 @@
             return $errors;
         }
 
+        shift_page_positions(0, $page['position'], $page['genre_id']);
+
         $sql = "INSERT INTO pages ";
         $sql.= "(genre_id, menu_name, position, visible, content) ";
         $sql.= "VALUES (";
@@ -250,6 +303,10 @@
             return $errors;
         }
 
+        $old_page = find_page_by_id($page['id']);
+        $old_position = $old_page['position'];
+        shift_page_positions($old_position, $page['position'], $page['genre_id'], $page['id']);
+
         $sql = "UPDATE pages SET ";
         $sql.= "genre_id='" . db_escape($db, $page['genre_id']) . "', ";
         $sql.= "menu_name='" . db_escape($db, $page['menu_name']) . "', ";
@@ -273,6 +330,10 @@
 
     function delete_page($id) {
         global $db;
+
+                $old_page = find_page_by_id($id);
+        $old_position = $old_page['position'];
+        shift_page_positions($old_position, 0, $old_page['genre_id'], $id);
 
         $sql = "DELETE FROM pages ";
         $sql.= "WHERE id='" . db_escape($db, $id) . "' ";
@@ -325,6 +386,48 @@
 
         $count = $row[0]; //as there's only one item being returned
         return $count;
+    }
+
+    function shift_page_positions($start_pos, $end_pos, $genre_id, $current_id=0) {
+        global $db;
+
+        //if start and end is the same, nothing has changed so return
+        if($start_pos == $end_pos) { return; }
+
+        $sql = "UPDATE pages ";
+        if($start_pos == 0) {
+        // new item, +1 to items greater than $end_pos
+        $sql .= "SET position = position + 1 ";
+        $sql .= "WHERE position >= '" . db_escape($db, $end_pos) . "' ";
+        } elseif($end_pos == 0) {
+        // delete item, -1 from items greater than $start_pos
+        $sql .= "SET position = position - 1 ";
+        $sql .= "WHERE position > '" . db_escape($db, $start_pos) . "' ";
+        } elseif($start_pos < $end_pos) {
+        // move later, -1 from items between (including $end_pos)
+        $sql .= "SET position = position - 1 ";
+        $sql .= "WHERE position > '" . db_escape($db, $start_pos) . "' ";
+        $sql .= "AND position <= '" . db_escape($db, $end_pos) . "' ";
+        } elseif($start_pos > $end_pos) {
+        // move earlier, +1 to items between (including $end_pos)
+        $sql .= "SET position = position + 1 ";
+        $sql .= "WHERE position >= '" . db_escape($db, $end_pos) . "' ";
+        $sql .= "AND position < '" . db_escape($db, $start_pos) . "' ";
+        }
+        // Exclude the current_id in the SQL WHERE clause
+        $sql .= "AND id != '" . db_escape($db, $current_id) . "' ";
+        $sql .= "AND genre_id = '" . db_escape($db, $genre_id) . "'";
+
+        $result = mysqli_query($db, $sql);
+        // For UPDATE statements, $result is true/false
+        if($result) {
+        return true;
+        } else {
+        // UPDATE failed
+        echo mysqli_error($db);
+        db_disconnect($db);
+        exit;
+        }
     }
 
     // ADMIN FUNCTIONS 
