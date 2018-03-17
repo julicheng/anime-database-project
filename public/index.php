@@ -1,3 +1,5 @@
+<!-- public homepage -->
+
 <?php require_once('../private/initialize.php'); ?>
 
 <?php 
