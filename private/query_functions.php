@@ -312,7 +312,7 @@
         global $db;
 
         $sql = "SELECT * FROM admins ";
-        $sql.= "ORDER BY id ASC";
+        $sql.= "ORDER BY last_name ASC, first_name ASC";
         $result = mysqli_query($db, $sql);
         confirm_result_set($result);
         return $result;
@@ -332,11 +332,75 @@
     }
 
     function validate_admin($admin) {
+        $errors = [];
 
+        // first_name
+        if(is_blank($admin['first_name'])) {
+        $errors[] = "First Name cannot be blank.";
+        } elseif(!has_length($admin['first_name'], ['min' => 2, 'max' => 255])) {
+        $errors[] = "First Name must be between 2 and 255 characters.";
+        }
+
+        // last_name
+        if(is_blank($admin['last_name'])) {
+        $errors[] = "Last Name cannot be blank.";
+        } elseif(!has_length($admin['last_name'], ['min' => 2, 'max' => 255])) {
+        $errors[] = "Last Name must be between 2 and 255 characters.";
+        }
+
+        // username
+        if(is_blank($admin['username'])) {
+        $errors[] = "Username cannot be blank.";
+        }
+        $current_id = isset($admin['id']) ? $admin['id'] : "0";
+        if (!has_unique_username($admin['username'], $current_id)) {
+            $errors[] = "Username must be unique.";
+        } elseif(!has_length($admin['username'], ['min' => 8, 'max' => 255])) {
+        $errors[] = "Username must be between 8 and 255 characters.";
+        }
+
+        // email
+        if(is_blank($admin['email'])) {
+        $errors[] = "Email cannot be blank.";
+        } elseif(!has_length($admin['email'], ['max' => 255])) {
+        $errors[] = "Last Name must be under 255 characters.";
+        } elseif(!has_valid_email_format($admin['email'])) {
+        $errors[] = "Email must be in a valid format.";
+        } 
+
+        // password
+        if(is_blank($admin['password'])) {
+        $errors[] = "Password cannot be blank.";
+        } elseif (!has_length(($admin['password']), ['min' => 12])) {
+            $errors[] = "Password must contain 12 or more characters.";
+        } elseif (!preg_match('/[A-Z]/', $admin['password'])) {
+            $errors[] = "Password must contain at least 1 uppercase letter.";
+        } elseif (!preg_match('/[a-z]/', $admin['password'])) {
+            $errors[] = "Password must contain at least 1 lowercase letter.";
+        } elseif (!preg_match('/[0-9]/', $admin['password'])) {
+            $errors[] = "Password must contain at least 1 number.";
+        } elseif (!preg_match('/[^A-Za-z0-9\s]/', $admin['password'])) {
+            $errors[] = "Password must contain at least 1 symbol.";
+        }
+
+        if(is_blank($admin['confirm_password'])) {
+            $errors[] = "Confirm password cannot be blank.";
+        } elseif ($admin['password'] !== $admin['confirm_password']) {
+            $errors[] = "Password and confirm password must match.";
+        }
+
+        return $errors;
     }
 
     function insert_admin($admin) {
         global $db;
+
+        $errors = validate_admin($admin);
+        if(!empty($errors)) {
+            return $errors;
+        }
+
+        $hashed_password = $admin['password'];
 
         $sql = "INSERT INTO admins ";
         $sql.= "(first_name, last_name, username, email, hashed_password) ";
@@ -345,7 +409,7 @@
         $sql.= "'" . db_escape($db, $admin['last_name']) . "', ";
         $sql.= "'" . db_escape($db, $admin['username']) . "', ";
         $sql.= "'" . db_escape($db, $admin['email']) . "', ";
-        $sql.= "'" . db_escape($db, $admin['hashed_password']) . "'";
+        $sql.= "'" . db_escape($db, $hashed_password) . "'";
         $sql.= ")";
 
         $result = mysqli_query($db, $sql);
@@ -363,12 +427,19 @@
     function update_admin($admin) {
         global $db;
 
+        $errors = validate_admin($admin);
+        if(!empty($errors)) {
+            return $errors;
+        }
+
+        $hashed_password = $admin['password'];
+
         $sql = "UPDATE admins SET ";
         $sql.= "first_name='" . db_escape($db, $admin['first_name']) . "', ";
         $sql.= "last_name='" . db_escape($db, $admin['last_name']) . "', ";
         $sql.= "username='" . db_escape($db, $admin['username']) . "', ";
         $sql.= "email='" . db_escape($db, $admin['email']) . "', ";
-        $sql.= "hashed_password='" . db_escape($db, $admin['hashed_password']) . "' ";
+        $sql.= "hashed_password='" . db_escape($db, $hashed_password) . "' ";
         $sql.= "WHERE id='" . db_escape($db, $admin['id']) . "' ";
         $sql.= "LIMIT 1";
 

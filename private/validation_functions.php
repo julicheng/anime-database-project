@@ -108,4 +108,19 @@
 
     return $page_count === 0; //returns true/false
   }
+
+  function has_unique_username($username, $current_id="0") {
+    global $db;
+
+    $sql = "SELECT * FROM admins ";
+    $sql.= "WHERE username='" . db_escape($db, $username) . "' ";
+    $sql.= "AND id !='" . db_escape($db, $current_id) . "'";
+
+    $user_set = mysqli_query($db, $sql);
+    $user_count = mysqli_num_rows($user_set);
+    mysqli_free_result($user_set);
+
+    return $user_count === 0; //returns true/false
+  }
+
 ?>
