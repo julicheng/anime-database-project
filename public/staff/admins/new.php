@@ -9,7 +9,8 @@ if(is_post_request()) {
     $admin['last_name'] = isset($_POST['last_name']) ? $_POST['last_name'] : "";
     $admin['username'] = isset($_POST['username']) ? $_POST['username'] : "";
     $admin['email'] = isset($_POST['email']) ? $_POST['email'] : "";
-    $admin['hashed_password'] = isset($_POST['hashed_password']) ? $_POST['hashed_password'] : "";
+    $admin['password'] = isset($_POST['password']) ? $_POST['password'] : "";
+    $admin['confirm_password'] = isset($_POST['confirm_password']) ? $_POST['confirm_password'] : "";
 
     $result = insert_admin($admin);
     if($result === true) {
@@ -28,7 +29,8 @@ if(is_post_request()) {
     $admin['last_name'] = "";
     $admin['username'] = "";
     $admin['email'] = "";
-    $admin['hashed_password'] = "";
+    $admin['password'] = "";
+    $admin['confirm_password'] = "";
 }
 
 ?>
@@ -69,13 +71,15 @@ if(is_post_request()) {
 
             <dl>
                 <dt>Password</dt>
-                <dd><input type="password" name="hashed_password" value=""></dd>
+                <dd><input type="password" name="password" value=""></dd>
             </dl>
 
             <dl>
                 <dt>Confirm Password</dt>
-                <dd><input type="password" name="" value=""></dd>
+                <dd><input type="password" name="confirm_password" value=""></dd>
             </dl>
+            <p>Passwords should be at least 12 characters and include at least one uppercase letter, lowercase letter, number, and symbol.
+            </p>
 
             <div id="operations">
                 <input type="submit" value="Create Admin">
