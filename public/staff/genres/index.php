@@ -2,6 +2,8 @@
 
 <?php
 
+require_login();
+
 $genre_set = find_all_genres();
 
 ?>

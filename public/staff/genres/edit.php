@@ -2,6 +2,8 @@
 
 require_once('../../../private/initialize.php');
 
+require_login();
+
 // if no id then don't show this page
 if(!isset($_GET['id'])) {
     redirect_to(url_for('/staff/genres/index.php'));

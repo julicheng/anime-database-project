@@ -4,6 +4,8 @@
 
 $admin_set = find_all_admins();
 
+require_login();
+
 ?>
 
 <?php $page_title = "Admins"; ?>

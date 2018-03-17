@@ -1,5 +1,11 @@
 <?php require_once('../../private/initialize.php'); ?> 
 
+<!-- temp logout v -->
+<!-- <?php unset($_SESSION['admin_id']); ?> -->
+
+<?php require_login() ?>
+<!-- check if user is logged in -->
+
 <?php $page_title = "Staff Area"; ?>
 <?php include(SHARED_PATH . '/staff_header.php'); ?>
 
