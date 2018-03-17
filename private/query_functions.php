@@ -306,6 +306,27 @@
         return $result;
     }
 
+    function count_pages_by_genre_id($genre_id , $options=[]) {
+        global $db;
+
+        $visible = isset($options['visible']) ? $options['visible'] : false;
+
+        //can use * or id between parenthesis
+        $sql = "SELECT COUNT(*) FROM pages ";
+        $sql.= "WHERE genre_id='" . db_escape($db, $genre_id) . "' ";
+        if($visible) {
+            $sql.= "AND visible = true ";
+        }
+        $result = mysqli_query($db, $sql);
+        confirm_result_set($result);
+        
+        $row = mysqli_fetch_row($result); //returns normal araay rather than assoc
+        mysqli_free_result($result);
+
+        $count = $row[0]; //as there's only one item being returned
+        return $count;
+    }
+
     // ADMIN FUNCTIONS 
 
     function find_all_admins() {
