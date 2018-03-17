@@ -5,7 +5,7 @@
 $preview = false;
 if(isset($_GET['preview'])) {
     // previewing should require admin to be logged in
-    $preview = $_GET['preview'] = 'true' ? true : false;
+    $preview = $_GET['preview'] = 'true' && is_logged_in() ? true : false;
 }
 // if preview set to true then visible needs to be set to false
 // because you want to view even the non visible pages in preview
