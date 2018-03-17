@@ -8,11 +8,38 @@ $password = '';
 if(is_post_request()) {
 
   $username = isset($_POST['username']) ? $_POST['username'] : '';
-  $password = isset($_POST['password']) ? $_POSR['username'] : '';
+  $password = isset($_POST['password']) ? $_POST['password'] : '';
 
-  $_SESSION['username'] = $username;
+  // validations
+  if(is_blank($username)) {
+    $errors[] = "Username cannot be blank.";
+  }
+  if(is_blank($password)) {
+    $errors[] = "Password cannot be blank.";
+  }
 
-  redirect_to(url_for('/staff/index.php'));
+
+// if there are no errors then run these if statements
+if(empty($errors)) {
+  $login_failure_msg = "Log in was unsuccessful.";
+  // see if username exists
+  $admin = find_admin_by_username($username);
+  if($admin) {
+    if(password_verify($password, $admin['hashed_password'])) {
+      // pass matches
+      log_in_admin($admin);
+      redirect_to(url_for('/staff/index.php'));
+    } else {
+      // user found but pass does not match
+      $errors[] = $login_failure_msg;
+    }
+  } else {
+    // no username found
+    $errors[] = $login_failure_msg;
+  }
+}
+
+  
 }
 
 ?>
