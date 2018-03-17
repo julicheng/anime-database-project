@@ -9,6 +9,8 @@ $id = isset($_GET['id']) ? $_GET['id'] : '1';
 // $id = $_GET['id'] ?? '1'; // PHP 7.0 or more
 
 $page = find_page_by_id($id);
+// returns an assoc array
+$genre = find_genre_by_id($page['genre_id']);
 
 ?>
 
@@ -17,19 +19,17 @@ $page = find_page_by_id($id);
 
 <div id="content">
 
-    <a class="back-link" href="<?php echo url_for('staff/pages/index.php'); ?>">&laquo; Back to List</a>
+    <a class="back-link" href="<?php echo url_for('staff/genres/show.php?id=' . h(u($page['genre_id']))); ?>">&laquo; Back to Genre Page</a>
 
     <div class="page show">
 
         <h1>Title: <?php echo h($page['menu_name']); ?></h1>
 
         <div class="actions">
-            <a class="action" href="<?php echo url_for('index.php?id=' . h(u($page['id']))) . '&preview=true'; ?>" target="_blank">Preview</a>
+            <a class="action" href="<?php echo url_for('index.php?id=' . h(u($genre['id']))) . '&preview=true'; ?>" target="_blank">Preview</a>
         </div>
 
         <div class="attributes">
-            <!-- returns an assoc array -->
-            <?php $genre = find_genre_by_id($page['genre_id']); ?>
             <dl>
                 <dt>Title</dt>
                 <dd><?php echo h($page['menu_name']); ?></dd>

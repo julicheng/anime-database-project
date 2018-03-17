@@ -26,7 +26,7 @@ if(is_post_request()) {
 } else {
 
     $page = [];
-    $page['genre_id'] = "";
+    $page['genre_id'] = isset($_GET['genre_id']) ? $_GET['genre_id'] : "1";
     $page['menu_name'] = "";
     $page['position'] = "";
     $page['visible'] = "";
@@ -44,7 +44,7 @@ if(is_post_request()) {
 
 <div id="content">
 
-    <a class="back-link" href="<?php echo url_for('/staff/pages/index.php'); ?>">&laquo; Back to List</a>
+    <a class="back-link" href="<?php echo url_for('staff/genres/show.php?id=' . h(u($page['genre_id']))); ?>">&laquo; Back to Genre Page</a>
 
     <div class="page new">
         <h1>Create Page</h1>

@@ -48,7 +48,7 @@ if(is_post_request()) {
 
 <div id="content">
 
-    <a class="back-link" href="<?php echo url_for('/staff/pages/index.php?id=' . h(u($id))); ?>">&laquo; Back to List</a>
+    <a class="back-link" href="<?php echo url_for('staff/genres/show.php?id=' . h(u($page['genre_id']))); ?>">&laquo; Back to Genre Page</a>
 
     <div class="page edit">
         <h1>Edit Page</h1>

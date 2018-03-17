@@ -48,7 +48,7 @@ $page_set = find_pages_by_genre_id($id);
         <h2>Pages</h2>
 
         <div class"actions">
-                <a class="action" href="<?php echo url_for('/staff/pages/new.php'); ?>">Create New Page</a>
+                <a class="action" href="<?php echo url_for('/staff/pages/new.php?genre_id=' . h(u($genre['id']))); ?>">Create New Page</a>
         </div><br>
 
         <table class="list">
