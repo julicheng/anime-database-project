@@ -1,8 +1,5 @@
 <?php require_once('../../private/initialize.php'); ?> 
 
-<!-- temp logout v -->
-<!-- <?php unset($_SESSION['admin_id']); ?> -->
-
 <?php require_login() ?>
 <!-- check if user is logged in -->
 
