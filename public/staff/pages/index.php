@@ -4,11 +4,14 @@
 
 require_login();
 
-$page_set = find_all_pages();
+redirect_to(url_for('/staff/index.php'));
+
+// $page_set = find_all_pages();
 
 ?>
 
-<?php $page_title = "Pages"; ?>
+<!-- NO LONGER NEED CODE BELOW AS DON'T NEED TO DIRECTLY SEE ALL PAPGES -->
+<!-- <?php $page_title = "Pages"; ?>
 <?php include(SHARED_PATH . '/staff_header.php'); ?>
 
 <div id="content">
@@ -56,4 +59,4 @@ $page_set = find_all_pages();
     </div>
 </div>
 
-<?php include(SHARED_PATH . '/staff_footer.php'); ?>
+<?php include(SHARED_PATH . '/staff_footer.php'); ?> -->
