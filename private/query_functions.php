@@ -289,7 +289,7 @@
         }
     }
 
-        function find_pages_by_genre_id($genre_id , $options=[]) {
+    function find_pages_by_genre_id($genre_id , $options=[]) {
         global $db;
 
         $visible = isset($options['visible']) ? $options['visible'] : false;
@@ -306,5 +306,101 @@
         return $result;
     }
 
-    
+    // ADMIN FUNCTIONS 
+
+    function find_all_admins() {
+        global $db;
+
+        $sql = "SELECT * FROM admins ";
+        $sql.= "ORDER BY id ASC";
+        $result = mysqli_query($db, $sql);
+        confirm_result_set($result);
+        return $result;
+    }
+
+    function find_admin_by_id($id) {
+        global $db;
+
+        $sql = "SELECT * FROM admins ";
+        $sql.= "WHERE id='" . db_escape($db, $id) . "'";
+        $result = mysqli_query($db, $sql);
+        confirm_result_set($result);
+
+        $admin = mysqli_fetch_assoc($result);
+        mysqli_free_result($result);
+        return $admin;
+    }
+
+    function validate_admin($admin) {
+
+    }
+
+    function insert_admin($admin) {
+        global $db;
+
+        $sql = "INSERT INTO admins ";
+        $sql.= "(first_name, last_name, username, email, hashed_password) ";
+        $sql.= "VALUES (";
+        $sql.= "'" . db_escape($db, $admin['first_name']) . "', ";
+        $sql.= "'" . db_escape($db, $admin['last_name']) . "', ";
+        $sql.= "'" . db_escape($db, $admin['username']) . "', ";
+        $sql.= "'" . db_escape($db, $admin['email']) . "', ";
+        $sql.= "'" . db_escape($db, $admin['hashed_password']) . "'";
+        $sql.= ")";
+
+        $result = mysqli_query($db, $sql);
+
+        if($result) {
+           return true;
+        } else {
+            //insert failed
+            echo mysqli_error($db);
+            db_disconnect($db);
+        }
+
+    }
+
+    function update_admin($admin) {
+        global $db;
+
+        $sql = "UPDATE admins SET ";
+        $sql.= "first_name='" . db_escape($db, $admin['first_name']) . "', ";
+        $sql.= "last_name='" . db_escape($db, $admin['last_name']) . "', ";
+        $sql.= "username='" . db_escape($db, $admin['username']) . "', ";
+        $sql.= "email='" . db_escape($db, $admin['email']) . "', ";
+        $sql.= "hashed_password='" . db_escape($db, $admin['hashed_password']) . "' ";
+        $sql.= "WHERE id='" . db_escape($db, $admin['id']) . "' ";
+        $sql.= "LIMIT 1";
+
+        $result = mysqli_query($db, $sql);;
+
+        if($result) {
+           return true;
+        } else {
+            //insert failed
+            echo mysqli_error($db);
+            db_disconnect($db);
+            exit();
+        }
+    }
+
+    function delete_admin($id) {
+        global $db;
+
+        $sql = "DELETE FROM admins ";
+        $sql.= "WHERE id='" . db_escape($db, $id) . "' ";
+        $sql.= "LIMIT 1"; 
+
+        $result = mysqli_query($db, $sql);
+
+        if($result) {
+           return true;
+        } else {
+            //insert failed
+            echo mysqli_error($db);
+            db_disconnect($db);
+            exit();
+        }
+    }
+
 ?>
